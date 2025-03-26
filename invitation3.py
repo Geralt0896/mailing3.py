@@ -2,11 +2,7 @@ from dotenv import load_dotenv
 import smtplib
 import os
 load_dotenv()
-email_from = os.environ.get('EMAIL_FROM')
-password = os.environ.get('PASSWORD')
-server = smtplib.SMTP_SSL('smtp.yandex.ru', 456)
-server.quit()
-sample = """From: cozlova.v3ronicka@yandex.ru
+sample = """From: devmanorg@yandex.ru
 To: ischmametovruslan@yandex.ru
 Subject: Приглашение!
 Content-Type: text/plain; charset="UTF-8";
@@ -29,4 +25,9 @@ Content-Type: text/plain; charset="UTF-8";
 Регистрируйся → %website%  
 На курсы, которые еще не вышли, можно подписаться и получить о релизе сразу на имейл."""
 sample = sample.replace("%website%", "https://dvmn.org/profession-ref-program/tatarin08.96/prjNs/"). replace("%my_name%", "Руслан"). replace("%friend_name%", "Вероника")
-sample = sample.encode("UTF-8")
+server = smtplib.SMTP_SSL('smtp.yandex.com', 465)
+email_from = os.environ.get('EMAIL_FROM')
+password = os.environ.get('PASSWORD')
+server.login(email_from, password)
+server.sendmail(email_from, 'ischmametovruslan@yandex.ru', sample.encode('UTF-8'))
+server.quit()
