@@ -2,9 +2,9 @@ from dotenv import load_dotenv
 import smtplib
 import os
 load_dotenv()
-sample = """From: devmanorg@yandex.ru
-To: ischmametovruslan@yandex.ru
-Subject: Приглашение!
+sample = """From: %from%
+To: %addressee%
+Subject: Приглашение.
 Content-Type: text/plain; charset="UTF-8";
 
 
@@ -24,10 +24,11 @@ Content-Type: text/plain; charset="UTF-8";
 
 Регистрируйся → %website%  
 На курсы, которые еще не вышли, можно подписаться и получить о релизе сразу на имейл."""
-sample = sample.replace("%website%", "https://dvmn.org/profession-ref-program/tatarin08.96/prjNs/"). replace("%my_name%", "Руслан"). replace("%friend_name%", "Вероника")
+sample = sample.replace("%website%", "https://dvmn.org/profession-ref-program/tatarin08.96/prjNs/"). replace("%my_name%", "Руслан"). replace("%friend_name%", "Максим"). replace("%from%", "devmanorg@yandex.ru"). replace("%addressee%", "konstantamk@yandex.ru")
 server = smtplib.SMTP_SSL('smtp.yandex.com', 465)
 email_from = os.environ.get('EMAIL_FROM')
 password = os.environ.get('PASSWORD')
+email_to = os.environ.get('EMAIL_TO')
 server.login(email_from, password)
-server.sendmail(email_from, 'ischmametovruslan@yandex.ru', sample.encode('UTF-8'))
+server.sendmail(email_from, email_to, sample.encode('UTF-8'))
 server.quit()
